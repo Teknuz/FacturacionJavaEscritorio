@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detallefactura" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="35fe7462-9fba-49da-83b9-3dc60e6c7b2f">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="factura" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     detallefacturacion.`productos_idproductos` AS detallefacturacion_productos_idproductos,
+     detallefacturacion.`facturacion_idfacturacion` AS detallefacturacion_facturacion_idfacturacion,
+     detallefacturacion.`det_cantidad` AS detallefacturacion_det_cantidad,
+     detallefacturacion.`det_precio` AS detallefacturacion_det_precio,
+     productos.`idproductos` AS productos_idproductos,
+     productos.`pro_nombre` AS productos_pro_nombre,
+     productos.`pro_IVA` AS productos_pro_IVA,
+if (productos.`pro_IVA`='EXENTA', detallefacturacion.`det_precio` * detallefacturacion.`det_cantidad`,' ') as exenta,
+if (productos.`pro_IVA`='5', detallefacturacion.`det_precio` * detallefacturacion.`det_cantidad`,' ') as cinco,
+if (productos.`pro_IVA`='10', detallefacturacion.`det_precio` * detallefacturacion.`det_cantidad`,' ') as diez
+FROM
+     `productos` productos INNER JOIN `detallefacturacion` detallefacturacion ON productos.`idproductos` = detallefacturacion.`productos_idproductos`
+where  detallefacturacion.`facturacion_idfacturacion` =$P{factura};]]>
+	</queryString>
+	<field name="detallefacturacion_productos_idproductos" class="java.lang.Integer"/>
+	<field name="detallefacturacion_facturacion_idfacturacion" class="java.lang.Integer"/>
+	<field name="detallefacturacion_det_cantidad" class="java.lang.Integer"/>
+	<field name="detallefacturacion_det_precio" class="java.lang.Integer"/>
+	<field name="productos_idproductos" class="java.lang.Integer"/>
+	<field name="productos_pro_nombre" class="java.lang.String"/>
+	<field name="productos_pro_IVA" class="java.lang.String"/>
+	<field name="exenta" class="java.lang.String"/>
+	<field name="cinco" class="java.lang.String"/>
+	<field name="diez" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="3" y="18" width="106" height="20" uuid="19abdcd0-30a3-443e-aebc-14bacf38130b"/>
+				<textFieldExpression><![CDATA[$F{detallefacturacion_det_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="109" y="18" width="100" height="20" uuid="89f1bceb-61df-41ab-8341-8e3f022c7f8b"/>
+				<textFieldExpression><![CDATA[$F{productos_pro_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="342" y="18" width="41" height="20" uuid="2aa387a3-576c-4f8f-9731-daffbf3d771f"/>
+				<textFieldExpression><![CDATA[$F{detallefacturacion_det_precio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="383" y="18" width="71" height="20" uuid="59381447-ba41-4f4d-b604-2820215b917e"/>
+				<textFieldExpression><![CDATA[$F{exenta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="454" y="17" width="49" height="20" uuid="20f2bfbb-d4e8-486c-8dd7-64c1badfa77f"/>
+				<textFieldExpression><![CDATA[$F{cinco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="503" y="17" width="39" height="20" uuid="fe98750d-6bf7-4f0d-8a7e-2989691812d3"/>
+				<textFieldExpression><![CDATA[$F{diez}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
